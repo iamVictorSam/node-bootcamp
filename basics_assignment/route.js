@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 const requestHandler = (req, res) => {
   const url = req.url;
   const method = req.method;
@@ -11,7 +13,7 @@ const requestHandler = (req, res) => {
 
   }
   if (url === '/') {
-  res.setHeader('Content-Type', 'text/html');
+    res.setHeader('Content-Type', 'text/html');
 
     res.write('<html>');
     res.write('<head><title>Welcome</title><head>');
@@ -31,6 +33,7 @@ const requestHandler = (req, res) => {
     return req.on('end', () => {
       const parsedBody = Buffer.concat(body).toString();
       const message = parsedBody.split('=')[1];
+      console.log(message);
       fs.writeFile('message.txt', message, err => {
         res.statusCode = 302;
         res.setHeader('Location', '/');
